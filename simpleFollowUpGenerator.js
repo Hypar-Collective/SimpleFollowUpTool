@@ -2,10 +2,10 @@ const fs = require("fs");
 
 const args = process.argv;
 
-const path = args[2];
+const folderPath = args[2];
 
-const getFilesInDir = async (path) => {
-  const files = fs.readdirSync(path);
+const getFilesInDir = async (_path) => {
+  const files = fs.readdirSync(_path);
   console.log(files);
   return files;
 };
@@ -17,7 +17,7 @@ const getUUIDFromName = (fileName) => {
 };
 
 const writeFollowUps = async () => {
-  const files = await getFilesInDir(path);
+  const files = await getFilesInDir(folderPath);
 
   console.log(`Writing to ${files.length} files...`);
 
@@ -33,10 +33,10 @@ const writeFollowUps = async () => {
 
     console.log(`Writing to ${files[i]}...`);
 
-    const rawdata = fs.readFileSync(path + file);
+    const rawdata = fs.readFileSync(path.join(folderPath, file));
     const data = JSON.parse(rawdata);
     data.followUpAnimation = idOfNextFile;
-    fs.writeFileSync(path + file, JSON.stringify(data));
+    fs.writeFileSync(path.join(folderPath, file), JSON.stringify(data));
   }
 
   console.log(`Done writing!`);
